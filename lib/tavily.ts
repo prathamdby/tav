@@ -13,16 +13,28 @@ export async function searchTavily(query: string): Promise<SearchResult[]> {
   const tvly = tavily({ apiKey: getEnv().TAVILY_API_KEY });
 
   const response = await tvly.search(query, {
-    searchDepth: "basic",
+    searchDepth: "advanced",
     maxResults: 5,
     includeFavicon: true,
   });
 
-  return (response.results ?? []).map((r) => ({
+  const results = (response.results ?? []).map((r) => ({
     title: r.title ?? "",
     url: r.url ?? "",
     content: r.content ?? "",
     score: r.score ?? 0,
     favicon: (r as { favicon?: string }).favicon ?? "",
   }));
+
+  console.log(
+    "[tavily] raw results:",
+    results.map((r) => ({
+      title: r.title,
+      url: r.url,
+      contentLength: r.content.length,
+      preview: r.content.slice(0, 120),
+    }))
+  );
+
+  return results;
 }
