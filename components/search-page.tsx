@@ -69,7 +69,9 @@ export function SearchPage() {
             {/* Logo top-left */}
             <div
               className="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex items-center"
-              style={{ background: "linear-gradient(var(--color-bg), transparent)" }}
+              style={{
+                background: "linear-gradient(var(--color-bg), transparent)",
+              }}
             >
               <button
                 type="button"

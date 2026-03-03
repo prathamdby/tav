@@ -136,7 +136,9 @@ export function SearchThread({ initialQuery, onReset }: SearchThreadProps) {
       {/* Fixed bottom input */}
       <div
         className="fixed bottom-0 left-0 right-0 z-30 pb-6 pt-3"
-        style={{ background: "linear-gradient(transparent, var(--color-bg) 40%)" }}
+        style={{
+          background: "linear-gradient(transparent, var(--color-bg) 40%)",
+        }}
       >
         <div
           className="mx-auto px-4"
