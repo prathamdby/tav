@@ -6,10 +6,10 @@ import {
   streamText,
   type UIMessage,
 } from "ai";
+import { decomposeQuery } from "@/lib/decompose";
 import { buildSystemPrompt } from "@/lib/prompts";
 import { extractText, rewriteFollowUp } from "@/lib/rewrite";
-import { searchTavily } from "@/lib/tavily";
-import type { CategorizedResult } from "@/lib/types";
+import { orchestrateSearch } from "@/lib/search-orchestrator";
 
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
@@ -24,21 +24,25 @@ export async function POST(req: Request) {
   const isFollowUp = messages.filter((m) => m.role === "user").length > 1;
   const searchQuery = isFollowUp ? await rewriteFollowUp(messages, query) : query;
 
-  let searchResults: Awaited<ReturnType<typeof searchTavily>> = [];
-  try {
-    searchResults = await searchTavily({ query: searchQuery });
-  } catch {
-    return new Response("Search failed", { status: 502 });
-  }
+  const wordCount = searchQuery.split(/\s+/).length;
+  const subtasks =
+    wordCount >= 3 ? await decomposeQuery(searchQuery) : [{ label: "direct", searchQuery }];
 
-  const categorizedResults: CategorizedResult[] = searchResults.map((r) => ({
-    ...r,
-    category: "direct",
-  }));
+  const { status, results: categorizedResults } = await orchestrateSearch(subtasks);
+
+  if (status === "all_failed") {
+    return new Response(
+      JSON.stringify({
+        error: "search_failed",
+        message: "Couldn't fetch search results. Please try again.",
+      }),
+      { status: 502, headers: { "Content-Type": "application/json" } }
+    );
+  }
 
   const systemPrompt = buildSystemPrompt(categorizedResults);
   console.log(
-    `[route] searchResults count: ${searchResults.length}, systemPrompt length: ${systemPrompt.length}`
+    `[route] results: ${categorizedResults.length}, systemPrompt length: ${systemPrompt.length}`
   );
 
   const turnId = crypto.randomUUID().slice(0, 8);
@@ -51,7 +55,7 @@ export async function POST(req: Request) {
           type: "source-url",
           sourceId: `src-${turnId}-${i + 1}`,
           url: result.url,
-          title: result.title,
+          title: `[${result.category}] ${result.title}`,
         });
       });
 
