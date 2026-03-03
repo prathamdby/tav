@@ -26,6 +26,7 @@ export function SourceCard({ id, url, title, index, favicon }: SourceCardProps) 
       target="_blank"
       rel="noopener noreferrer"
       title={title}
+      data-source-index={index}
       className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] hover:bg-[var(--color-surface-elevated)] hover:border-[var(--color-text-dim)] transition-colors text-sm no-underline group"
       style={{ minWidth: "140px", maxWidth: "200px" }}
     >
