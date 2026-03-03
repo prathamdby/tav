@@ -1,8 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "$schema": "https://biomejs.dev/schemas/2.4.5/schema.json",
   "linter": {
     "enabled": true,
     "rules": {
@@ -25,16 +22,22 @@
     }
   },
   "files": {
-    "ignore": [
-      "node_modules",
-      ".next",
-      "dist",
-      "build",
-      ".canopy",
-      ".mulch",
-      ".overstory",
-      ".seeds",
-      ".pi"
+    "includes": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js",
+      "**/*.jsx",
+      "**/*.json",
+      "!node_modules/**",
+      "!.next/**",
+      "!dist/**",
+      "!build/**",
+      "!.canopy/**",
+      "!.mulch/**",
+      "!.overstory/**",
+      "!.seeds/**",
+      "!.pi/**",
+      "!bun.lock"
     ]
   }
 }
