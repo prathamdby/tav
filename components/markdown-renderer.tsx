@@ -33,7 +33,7 @@ function parseCitations(text: string, onCitationClick: (n: number) => void): Rea
 }
 
 function scrollToSource(n: number) {
-  const el = document.getElementById(`source-${n}`);
+  const el = document.querySelector(`[data-source-index="${n}"]`);
   if (el) el.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
