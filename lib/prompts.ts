@@ -1,4 +1,4 @@
-import type { SearchResult } from "./tavily";
+import type { SearchResult } from "./types";
 
 function formatResults(results: SearchResult[]): string {
   if (results.length === 0) {

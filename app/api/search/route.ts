@@ -51,7 +51,7 @@ export async function POST(req: Request) {
 
   let searchResults: Awaited<ReturnType<typeof searchTavily>> = [];
   try {
-    searchResults = await searchTavily(searchQuery);
+    searchResults = await searchTavily({ query: searchQuery });
   } catch {
     return new Response("Search failed", { status: 502 });
   }

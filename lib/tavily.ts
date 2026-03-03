@@ -1,20 +1,14 @@
 import { tavily } from "@tavily/core";
 import { getEnv } from "./env";
+import type { SearchConfig, SearchResult } from "./types";
 
-export interface SearchResult {
-  title: string;
-  url: string;
-  content: string;
-  score: number;
-  favicon: string;
-}
-
-export async function searchTavily(query: string): Promise<SearchResult[]> {
+export async function searchTavily(config: SearchConfig): Promise<SearchResult[]> {
+  const { query, maxResults = 5, searchDepth = "advanced" } = config;
   const tvly = tavily({ apiKey: getEnv().TAVILY_API_KEY });
 
   const response = await tvly.search(query, {
-    searchDepth: "advanced",
-    maxResults: 5,
+    searchDepth,
+    maxResults,
     includeFavicon: true,
   });
 
