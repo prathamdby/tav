@@ -118,7 +118,21 @@ body::before {
   background: rgba(0, 212, 255, 0.2);
 }
 
-/* Prose styles for markdown */
+/* Search input */
+.search-input-wrapper {
+  border-color: var(--color-border);
+}
+
+.search-input-wrapper:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-dim);
+}
+
+.search-input-error {
+  border-color: var(--color-error) !important;
+  box-shadow: none !important;
+}
+
 .prose h1,
 .prose h2,
 .prose h3,
