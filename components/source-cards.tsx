@@ -13,7 +13,7 @@ export function SourceCards({ sources }: SourceCardsProps) {
   }
 
   return (
-    <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
+    <div className="flex gap-2 overflow-x-auto pb-1 pr-1" style={{ scrollbarWidth: "thin" }}>
       {sources.map((source, i) => (
         <SourceCard
           key={source.sourceId}

@@ -23,7 +23,13 @@ function getReasoningParts(message: UIMessage): ReasoningUIPart[] {
 }
 
 function getSourceParts(message: UIMessage): SourceUrlUIPart[] {
-  return message.parts.filter((p): p is SourceUrlUIPart => p.type === "source-url");
+  const seen = new Set<string>();
+  return message.parts.filter((p): p is SourceUrlUIPart => {
+    if (p.type !== "source-url") return false;
+    if (seen.has(p.sourceId)) return false;
+    seen.add(p.sourceId);
+    return true;
+  });
 }
 
 export function AnswerBlock({ message, userQuery, isStreaming, onStop }: AnswerBlockProps) {
@@ -35,9 +41,9 @@ export function AnswerBlock({ message, userQuery, isStreaming, onStop }: AnswerB
   const reasoningText = reasoningParts.map((p) => p.text).join("");
 
   return (
-    <div className="mb-8">
+    <div className="mb-4">
       {/* User query */}
-      <p className="text-sm text-[var(--color-text-muted)] mb-4 font-medium">{userQuery}</p>
+      <p className="text-base text-[var(--color-text)] mb-3 font-semibold">{userQuery}</p>
 
       {/* Thinking block */}
       {reasoningText && (
@@ -61,13 +67,13 @@ export function AnswerBlock({ message, userQuery, isStreaming, onStop }: AnswerB
 
       {/* Source cards */}
       {sourceParts.length > 0 && (
-        <div className="mt-4">
+        <div className="mt-3">
           <SourceCards sources={sourceParts} />
         </div>
       )}
 
       {/* Actions */}
-      <div className="flex items-center gap-2 mt-4">
+      <div className="flex items-center gap-2 mt-3">
         {isStreaming && onStop && <StopButton onStop={onStop} />}
         {!isStreaming && fullText && <CopyButton text={fullText} />}
       </div>

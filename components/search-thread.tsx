@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnswerBlock } from "./answer-block";
 import { ScrollToBottom } from "./scroll-to-bottom";
 import { SearchInput } from "./search-input";
@@ -105,13 +105,15 @@ export function SearchThread({ initialQuery, onReset }: SearchThreadProps) {
             const msg = assistantMessages[assistantIndex];
             const isLast = assistantIndex === assistantMessages.length - 1;
             return (
-              <AnswerBlock
-                key={msg.id}
-                message={msg}
-                userQuery={userQuery}
-                isStreaming={isLast && isLoading}
-                onStop={isLast ? stop : undefined}
-              />
+              <React.Fragment key={msg.id}>
+                {assistantIndex > 0 && <hr className="border-[var(--color-border)] my-6" />}
+                <AnswerBlock
+                  message={msg}
+                  userQuery={userQuery}
+                  isStreaming={isLast && isLoading}
+                  onStop={isLast ? stop : undefined}
+                />
+              </React.Fragment>
             );
           })}
 

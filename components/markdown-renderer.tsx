@@ -11,9 +11,9 @@ interface MarkdownRendererProps {
 }
 
 function parseCitations(text: string, onCitationClick: (n: number) => void): React.ReactNode[] {
-  const parts = text.split(/(\[\d+\])/g);
+  const parts = text.split(/(\[\d+\]|【\d+】)/g);
   return parts.map((part, i) => {
-    const match = part.match(/^\[(\d+)\]$/);
+    const match = part.match(/^\[(\d+)\]$/) ?? part.match(/^【(\d+)】$/);
     if (match) {
       const n = Number.parseInt(match[1], 10);
       return (
