@@ -1,0 +1,1 @@
+{"type":"convention","content":"Biome v2 (2.4.5): folder excludes use '!foldername' not '!foldername/**'. organizeImports key removed.  must match installed CLI version (2.x).","classification":"foundational","recorded_at":"2026-03-03T11:02:37.503Z","outcomes":[{"status":"success","agent":"tav-builder-1"}],"id":"mx-72d9f2"}

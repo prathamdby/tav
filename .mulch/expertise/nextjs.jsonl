@@ -1,0 +1,1 @@
+{"type":"convention","content":"Next.js 16+: env validation must be lazy (runtime only). Module-level validation runs during build and fails with missing vars. Pattern: getEnv() function with cached result, validates on first call.","classification":"foundational","recorded_at":"2026-03-03T11:02:32.083Z","outcomes":[{"status":"success","agent":"tav-builder-1"}],"id":"mx-e64c1f"}

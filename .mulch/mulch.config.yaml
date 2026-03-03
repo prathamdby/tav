@@ -1,5 +1,9 @@
 version: '1'
-domains: []
+domains:
+  - agents
+  - ai-sdk
+  - nextjs
+  - biome
 governance:
   max_entries: 100
   warn_entries: 150
