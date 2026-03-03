@@ -12,7 +12,7 @@ import { extractText, rewriteFollowUp } from "@/lib/rewrite";
 import { orchestrateSearch } from "@/lib/search-orchestrator";
 
 export async function POST(req: Request) {
-  const { messages }: { messages: UIMessage[] } = await req.json();
+  const { messages, timezone }: { messages: UIMessage[]; timezone?: string } = await req.json();
 
   const lastUserMessage = messages.filter((m) => m.role === "user").at(-1);
   const query = lastUserMessage ? extractText(lastUserMessage) : "";
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const systemPrompt = buildSystemPrompt(categorizedResults);
+  const systemPrompt = buildSystemPrompt(categorizedResults, timezone);
   console.log(
     `[route] results: ${categorizedResults.length}, systemPrompt length: ${systemPrompt.length}`
   );

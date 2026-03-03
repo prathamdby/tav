@@ -23,7 +23,10 @@ export function SearchThread({ initialQuery, onReset }: SearchThreadProps) {
   const initialSubmitted = useRef(false);
 
   const { messages, sendMessage, stop, status, error } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/search" }),
+    transport: new DefaultChatTransport({
+      api: "/api/search",
+      body: { timezone: Intl.DateTimeFormat().resolvedOptions().timeZone },
+    }),
   });
 
   const isLoading = status === "submitted" || status === "streaming";

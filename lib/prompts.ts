@@ -15,7 +15,7 @@ function formatCategoryResults(results: CategorizedResult[], startIndex: number)
     .join("\n\n");
 }
 
-export function buildSystemPrompt(results: CategorizedResult[]): string {
+export function buildSystemPrompt(results: CategorizedResult[], timezone?: string): string {
   const filtered = results.filter((r) => r.content.length >= 50);
 
   console.log(`[prompts] results before filter: ${results.length}, after: ${filtered.length}`);
@@ -38,6 +38,8 @@ export function buildSystemPrompt(results: CategorizedResult[]): string {
     categorySections ||
     "(No search results available — answer from your own knowledge and note this.)";
 
+  const tz = timezone || "UTC";
+
   const prompt = `You are tav, an expert AI research analyst. Your job is to synthesize a comprehensive answer from the web search results below.
 
 Rules:
@@ -51,8 +53,8 @@ Rules:
 - Do not repeat the question
 
 Context:
-- Today's date: ${new Intl.DateTimeFormat("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Kolkata" }).format(new Date())}
-- Current time: ${new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short", timeZone: "Asia/Kolkata" }).format(new Date())}
+- Today's date: ${new Intl.DateTimeFormat("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: tz }).format(new Date())}
+- Current time: ${new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short", timeZone: tz }).format(new Date())}
 
 Research Results:
 
