@@ -66,25 +66,38 @@ export function SearchThread({ initialQuery, onReset }: SearchThreadProps) {
     sendMessage({ text: query });
   }
 
-  // Pair up user/assistant messages
-  const turns: Array<{ userQuery: string; assistantIndex: number }> = [];
-  const assistantMessages = messages.filter((m) => m.role === "assistant");
-  const userMessages = messages.filter((m) => m.role === "user");
+  // Walk messages in order, grouping consecutive assistant messages under their preceding user message.
+  // When AI SDK emits two assistant messages per turn (sources-only ghost + real content),
+  // keep the most complete one to avoid duplicate source cards.
+  const turns: Array<{ userQuery: string; assistantMsg: (typeof messages)[number] }> = [];
+  let currentQuery = "";
 
-  for (let i = 0; i < assistantMessages.length; i++) {
-    const userPart = userMessages[i];
-    const userText =
-      (
-        userPart?.parts?.find((p) => p.type === "text") as
-          | { type: "text"; text: string }
-          | undefined
-      )?.text ?? "";
-    turns.push({ userQuery: userText, assistantIndex: i });
+  for (const msg of messages) {
+    if (msg.role === "user") {
+      currentQuery =
+        (msg.parts?.find((p) => p.type === "text") as { type: "text"; text: string } | undefined)
+          ?.text ?? "";
+    } else if (msg.role === "assistant") {
+      const existing = turns.at(-1);
+      if (existing && existing.userQuery === currentQuery) {
+        const hasContent = msg.parts.some((p) => p.type === "text" || p.type === "reasoning");
+        if (
+          hasContent ||
+          !existing.assistantMsg.parts.some((p) => p.type === "text" || p.type === "reasoning")
+        ) {
+          existing.assistantMsg = msg;
+        }
+      } else {
+        turns.push({ userQuery: currentQuery, assistantMsg: msg });
+      }
+    }
   }
 
   // Show loading turn for in-flight request with no assistant message yet
+  const userMessages = messages.filter((m) => m.role === "user");
+  const assistantCount = messages.filter((m) => m.role === "assistant").length;
   const pendingQuery =
-    isLoading && assistantMessages.length < userMessages.length
+    isLoading && (assistantCount === 0 || turns.length < userMessages.length)
       ? ((
           userMessages.at(-1)?.parts?.find((p) => p.type === "text") as
             | { type: "text"; text: string }
@@ -101,14 +114,13 @@ export function SearchThread({ initialQuery, onReset }: SearchThreadProps) {
           style={{ maxWidth: "min(50vw, 100% - 32px)", minWidth: "320px" }}
         >
           {/* Rendered turns */}
-          {turns.map(({ userQuery, assistantIndex }) => {
-            const msg = assistantMessages[assistantIndex];
-            const isLast = assistantIndex === assistantMessages.length - 1;
+          {turns.map(({ userQuery, assistantMsg }, idx) => {
+            const isLast = idx === turns.length - 1;
             return (
-              <React.Fragment key={msg.id}>
-                {assistantIndex > 0 && <hr className="border-[var(--color-border)] my-6" />}
+              <React.Fragment key={assistantMsg.id}>
+                {idx > 0 && <hr className="border-[var(--color-border)] my-6" />}
                 <AnswerBlock
-                  message={msg}
+                  message={assistantMsg}
                   userQuery={userQuery}
                   isStreaming={isLast && isLoading}
                   onStop={isLast ? stop : undefined}
