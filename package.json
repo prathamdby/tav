@@ -11,27 +11,28 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "ai": "latest",
     "@ai-sdk/cerebras": "latest",
     "@ai-sdk/react": "latest",
     "@tavily/core": "latest",
-    "react-markdown": "latest",
-    "remark-gfm": "latest",
-    "rehype-highlight": "latest",
-    "highlight.js": "latest",
+    "ai": "latest",
     "geist": "latest",
+    "highlight.js": "latest",
     "motion": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-markdown": "latest",
+    "rehype-highlight": "latest",
+    "remark-gfm": "latest",
     "zod": "latest"
   },
   "devDependencies": {
     "@biomejs/biome": "latest",
-    "typescript": "latest",
+    "@tailwindcss/postcss": "latest",
+    "@types/node": "25.3.3",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "tailwindcss": "latest",
-    "@tailwindcss/postcss": "latest"
+    "typescript": "latest"
   }
 }

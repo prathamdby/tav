@@ -1,0 +1,53 @@
+[
+	{
+		"id": "group-c3389521",
+		"name": "tav-build",
+		"memberIssueIds": [
+			"tav-8a82"
+		],
+		"status": "completed",
+		"createdAt": "2026-03-03T10:31:55.064Z",
+		"completedAt": "2026-03-03T11:07:51.633Z"
+	},
+	{
+		"id": "group-256fac34",
+		"name": "tailwind-fix",
+		"memberIssueIds": [
+			"tav-f31d"
+		],
+		"status": "active",
+		"createdAt": "2026-03-03T11:17:44.160Z",
+		"completedAt": null
+	},
+	{
+		"id": "group-9332fa0a",
+		"name": "ui-polish",
+		"memberIssueIds": [
+			"tav-ef07",
+			"tav-d699"
+		],
+		"status": "active",
+		"createdAt": "2026-03-03T11:32:18.597Z",
+		"completedAt": null
+	},
+	{
+		"id": "group-1b622ddf",
+		"name": "source-dedup",
+		"memberIssueIds": [
+			"tav-34b6"
+		],
+		"status": "active",
+		"createdAt": "2026-03-03T11:50:00.962Z",
+		"completedAt": null
+	},
+	{
+		"id": "group-ab516d8f",
+		"name": "context-fix",
+		"memberIssueIds": [
+			"tav-d3c5"
+		],
+		"status": "active",
+		"createdAt": "2026-03-03T12:05:42.020Z",
+		"completedAt": null
+	}
+]
