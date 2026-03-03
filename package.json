@@ -1,0 +1,37 @@
+{
+  "name": "tav",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "ai": "latest",
+    "@ai-sdk/cerebras": "latest",
+    "@ai-sdk/react": "latest",
+    "@tavily/core": "latest",
+    "react-markdown": "latest",
+    "remark-gfm": "latest",
+    "rehype-highlight": "latest",
+    "highlight.js": "latest",
+    "geist": "latest",
+    "motion": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "latest",
+    "typescript": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "tailwindcss": "latest",
+    "@tailwindcss/postcss": "latest"
+  }
+}
