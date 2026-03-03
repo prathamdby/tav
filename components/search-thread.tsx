@@ -66,40 +66,26 @@ export function SearchThread({ initialQuery, onReset }: SearchThreadProps) {
     sendMessage({ text: query });
   }
 
-  // Walk messages in order, grouping consecutive assistant messages under their preceding user message.
-  // When AI SDK emits two assistant messages per turn (sources-only ghost + real content),
-  // keep the most complete one to avoid duplicate source cards.
-  const turns: Array<{ userQuery: string; assistantMsg: (typeof messages)[number] }> = [];
-  let currentQuery = "";
+  const realAssistant = messages.filter(
+    (m) =>
+      m.role === "assistant" && m.parts.some((p) => p.type === "text" || p.type === "reasoning")
+  );
+  const userMsgs = messages.filter((m) => m.role === "user");
 
-  for (const msg of messages) {
-    if (msg.role === "user") {
-      currentQuery =
-        (msg.parts?.find((p) => p.type === "text") as { type: "text"; text: string } | undefined)
-          ?.text ?? "";
-    } else if (msg.role === "assistant") {
-      const existing = turns.at(-1);
-      if (existing && existing.userQuery === currentQuery) {
-        const hasContent = msg.parts.some((p) => p.type === "text" || p.type === "reasoning");
-        if (
-          hasContent ||
-          !existing.assistantMsg.parts.some((p) => p.type === "text" || p.type === "reasoning")
-        ) {
-          existing.assistantMsg = msg;
-        }
-      } else {
-        turns.push({ userQuery: currentQuery, assistantMsg: msg });
-      }
-    }
-  }
+  const turns = realAssistant.map((msg, i) => ({
+    userQuery:
+      (
+        userMsgs[i]?.parts?.find((p) => p.type === "text") as
+          | { type: "text"; text: string }
+          | undefined
+      )?.text ?? "",
+    assistantMsg: msg,
+  }));
 
-  // Show loading turn for in-flight request with no assistant message yet
-  const userMessages = messages.filter((m) => m.role === "user");
-  const assistantCount = messages.filter((m) => m.role === "assistant").length;
   const pendingQuery =
-    isLoading && (assistantCount === 0 || turns.length < userMessages.length)
+    isLoading && realAssistant.length < userMsgs.length
       ? ((
-          userMessages.at(-1)?.parts?.find((p) => p.type === "text") as
+          userMsgs.at(-1)?.parts?.find((p) => p.type === "text") as
             | { type: "text"; text: string }
             | undefined
         )?.text ?? "")
