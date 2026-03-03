@@ -1,4 +1,4 @@
-version: "1"
+version: '1'
 domains:
   - agents
   - ai-sdk
@@ -8,6 +8,7 @@ domains:
   - tailwind
   - grounding
   - architecture
+  - frontend
 governance:
   max_entries: 100
   warn_entries: 150
