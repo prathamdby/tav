@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnswerBlock } from "./answer-block";
 import { ScrollToBottom } from "./scroll-to-bottom";
 import { SearchInput } from "./search-input";
+import { Toast } from "./toast";
 
 interface SearchThreadProps {
   initialQuery?: string;
@@ -17,9 +18,11 @@ export function SearchThread({ initialQuery, onReset }: SearchThreadProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [autoScroll, setAutoScroll] = useState(true);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastVisible, setToastVisible] = useState(false);
   const initialSubmitted = useRef(false);
 
-  const { messages, sendMessage, stop, status } = useChat({
+  const { messages, sendMessage, stop, status, error } = useChat({
     transport: new DefaultChatTransport({ api: "/api/search" }),
   });
 
@@ -61,6 +64,19 @@ export function SearchThread({ initialQuery, onReset }: SearchThreadProps) {
     }
   }, [initialQuery, sendMessage]);
 
+  useEffect(() => {
+    if (!error) return;
+    let msg: string;
+    try {
+      const parsed = JSON.parse(error.message);
+      msg = parsed.message || error.message;
+    } catch {
+      msg = error.message || "Something went wrong. Please try again.";
+    }
+    setToastMessage(msg);
+    setToastVisible(true);
+  }, [error]);
+
   function handleSubmit(query: string) {
     setAutoScroll(true);
     sendMessage({ text: query });
@@ -93,6 +109,11 @@ export function SearchThread({ initialQuery, onReset }: SearchThreadProps) {
 
   return (
     <div className="flex flex-col h-screen">
+      <Toast
+        message={toastMessage}
+        visible={toastVisible}
+        onDismiss={() => setToastVisible(false)}
+      />
       {/* Thread scroll area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto pt-16 pb-32">
         <div
