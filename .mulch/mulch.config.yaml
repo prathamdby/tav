@@ -5,6 +5,7 @@ domains:
   - nextjs
   - biome
   - orchestration
+  - tailwind
 governance:
   max_entries: 100
   warn_entries: 150
