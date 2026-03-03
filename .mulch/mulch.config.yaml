@@ -9,6 +9,7 @@ domains:
   - grounding
   - architecture
   - frontend
+  - prompts
 governance:
   max_entries: 100
   warn_entries: 150
