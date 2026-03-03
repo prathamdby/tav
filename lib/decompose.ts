@@ -12,15 +12,12 @@ async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
 }
 
 const subtaskSchema = z.object({
-  subtasks: z
-    .array(
-      z.object({
-        label: z.string().describe("2-3 word lowercase category label"),
-        searchQuery: z.string().describe("Targeted web search query"),
-      })
-    )
-    .min(2)
-    .max(3),
+  subtasks: z.array(
+    z.object({
+      label: z.string().describe("2-3 word lowercase category label"),
+      searchQuery: z.string().describe("Targeted web search query"),
+    })
+  ),
 });
 
 export async function decomposeQuery(query: string): Promise<Subtask[]> {
