@@ -1,5 +1,5 @@
 import { tavily } from "@tavily/core";
-import { env } from "./env";
+import { getEnv } from "./env";
 
 export interface SearchResult {
   title: string;
@@ -10,7 +10,7 @@ export interface SearchResult {
 }
 
 export async function searchTavily(query: string): Promise<SearchResult[]> {
-  const tvly = tavily({ apiKey: env.TAVILY_API_KEY });
+  const tvly = tavily({ apiKey: getEnv().TAVILY_API_KEY });
 
   const response = await tvly.search(query, {
     searchDepth: "basic",

@@ -5,11 +5,20 @@ const envSchema = z.object({
   TAVILY_API_KEY: z.string().min(1, "TAVILY_API_KEY is required"),
 });
 
-const parsed = envSchema.safeParse(process.env);
-
-if (!parsed.success) {
-  const missing = parsed.error.issues.map((i) => i.message).join(", ");
-  throw new Error(`Missing environment variables: ${missing}`);
+function validateEnv() {
+  const parsed = envSchema.safeParse(process.env);
+  if (!parsed.success) {
+    const missing = parsed.error.issues.map((i) => i.message).join(", ");
+    throw new Error(`Missing environment variables: ${missing}`);
+  }
+  return parsed.data;
 }
 
-export const env = parsed.data;
+let _env: z.infer<typeof envSchema> | null = null;
+
+export function getEnv() {
+  if (!_env) {
+    _env = validateEnv();
+  }
+  return _env;
+}
