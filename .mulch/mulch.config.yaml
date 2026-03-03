@@ -4,6 +4,7 @@ domains:
   - ai-sdk
   - nextjs
   - biome
+  - orchestration
 governance:
   max_entries: 100
   warn_entries: 150

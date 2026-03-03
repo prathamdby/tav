@@ -1,0 +1,1 @@
+{"type":"convention","content":"Single builder worker optimal for strictly sequential commit plans where every commit depends on all prior commits. Parallelization adds overhead without benefit.","classification":"tactical","recorded_at":"2026-03-03T11:10:16.866Z","id":"mx-f7a53d"}
