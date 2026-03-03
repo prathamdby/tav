@@ -9,6 +9,7 @@ import {
 import { buildSystemPrompt } from "@/lib/prompts";
 import { extractText, rewriteFollowUp } from "@/lib/rewrite";
 import { searchTavily } from "@/lib/tavily";
+import type { CategorizedResult } from "@/lib/types";
 
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
@@ -30,7 +31,12 @@ export async function POST(req: Request) {
     return new Response("Search failed", { status: 502 });
   }
 
-  const systemPrompt = buildSystemPrompt(searchResults);
+  const categorizedResults: CategorizedResult[] = searchResults.map((r) => ({
+    ...r,
+    category: "direct",
+  }));
+
+  const systemPrompt = buildSystemPrompt(categorizedResults);
   console.log(
     `[route] searchResults count: ${searchResults.length}, systemPrompt length: ${systemPrompt.length}`
   );
@@ -40,7 +46,7 @@ export async function POST(req: Request) {
 
   const stream = createUIMessageStream({
     execute: async ({ writer }) => {
-      searchResults.forEach((result, i) => {
+      categorizedResults.forEach((result, i) => {
         writer.write({
           type: "source-url",
           sourceId: `src-${turnId}-${i + 1}`,
