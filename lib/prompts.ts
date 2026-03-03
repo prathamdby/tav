@@ -14,7 +14,11 @@ ${r.content}`
 }
 
 export function buildSystemPrompt(results: SearchResult[]): string {
-  return `You are tav, a fast and accurate AI search engine. Your job is to answer the user's question using the provided web search results.
+  const filtered = results.filter((r) => r.content.length >= 50);
+
+  console.log(`[prompts] results before filter: ${results.length}, after: ${filtered.length}`);
+
+  const prompt = `You are tav, a fast and accurate AI search engine. Your job is to answer the user's question using the provided web search results.
 
 Rules:
 - Use the search results below to ground your answer in real, up-to-date information
@@ -27,5 +31,9 @@ Rules:
 - Do not introduce yourself or repeat the question
 
 Search Results:
-${formatResults(results)}`;
+${formatResults(filtered)}`;
+
+  console.log("[prompts] system prompt length:", prompt.length);
+
+  return prompt;
 }

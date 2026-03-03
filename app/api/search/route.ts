@@ -32,6 +32,9 @@ export async function POST(req: Request) {
   }
 
   const systemPrompt = buildSystemPrompt(searchResults);
+  console.log(
+    `[route] searchResults count: ${searchResults.length}, systemPrompt length: ${systemPrompt.length}`
+  );
   const windowedMessages = messages.slice(-6);
 
   const stream = createUIMessageStream({
@@ -47,7 +50,7 @@ export async function POST(req: Request) {
 
       const result = streamText({
         model: cerebras("gpt-oss-120b"),
-        providerOptions: { cerebras: { reasoningEffort: "low" } },
+        providerOptions: { cerebras: { reasoningEffort: "medium" } },
         system: systemPrompt,
         messages: await convertToModelMessages(windowedMessages),
       });
