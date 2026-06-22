@@ -1,6 +1,6 @@
 # tav 🍌
 
-Fast AI search engine. Query → streamed answer from live web results with inline source citations. No accounts, no clutter. Banana.
+Fast AI search engine. Query → streamed answer from live web results with inline source citations. No accounts, no clutter. Banana. Apple.
 
 ## Features
 
