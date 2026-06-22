@@ -11,50 +11,50 @@
 <p align="center"><strong>Fast AI search engine. No accounts. No clutter. Just answers.</strong></p>
 
 <p align="center">
-  <i>Query → streamed answer from live web results with inline source citations — built for speed.</i>
+  <i>Query to streamed answer from live web results with inline source citations, built for speed.</i>
 </p>
 
 <br />
 
 ---
 
-## ✨ Features
+## Features
 
-- ⚡ **Blazing fast inference** — Powered by Cerebras `gpt-oss-120b` for sub-2s time-to-first-token
-- 🌐 **Live web grounding** — Every answer backed by real-time Tavily Search results
-- 💬 **Multi-turn conversations** — Ask follow-ups with full thread context
-- 📝 **Rich markdown answers** — Headings, lists, code blocks with syntax highlighting, tables, and more
-- 🔗 **Inline source citations** — Every claim cites its source; click to jump to the card
-- 🎨 **Minimal dark theme** — Clean, distraction-free UI with Geist typography
-- ⌨️ **Keyboard-first** — Full keyboard shortcuts for power users
-- 🔄 **Streaming responses** — See answers token-by-token as they're generated
-- 🚫 **No accounts** — No sign-up, no login, no tracking
+- **Blazing fast inference** -- Powered by Cerebras `gpt-oss-120b` for sub-2s time-to-first-token
+- **Live web grounding** -- Every answer backed by real-time Tavily Search results
+- **Multi-turn conversations** -- Ask follow-ups with full thread context
+- **Rich markdown answers** -- Headings, lists, code blocks with syntax highlighting, tables, and more
+- **Inline source citations** -- Every claim cites its source; click to jump to the card
+- **Minimal dark theme** -- Clean, distraction-free UI with Geist typography
+- **Keyboard-first** -- Full keyboard shortcuts for power users
+- **Streaming responses** -- See answers token-by-token as they're generated
+- **No accounts** -- No sign-up, no login, no tracking
 
 ---
 
-## 🏗️ Stack
+## Stack
 
 | Layer               | Technology                                                                     |
 | ------------------- | ------------------------------------------------------------------------------ |
 | **Framework**       | [Next.js](https://nextjs.org) (App Router) + RSC                               |
 | **AI Inference**    | [Cerebras](https://cloud.cerebras.ai) `gpt-oss-120b` via `@ai-sdk/cerebras`    |
-| **AI SDK**          | [Vercel AI SDK](https://sdk.vercel.ai) 5.x — `streamText`, `UIMessageStream`   |
-| **Search API**      | [Tavily](https://tavily.com) — LLM-optimized web search                        |
+| **AI SDK**          | [Vercel AI SDK](https://sdk.vercel.ai) 5.x -- `streamText`, `UIMessageStream`  |
+| **Search API**      | [Tavily](https://tavily.com) -- LLM-optimized web search                       |
 | **Styling**         | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) |
-| **Typography**      | [Geist](https://vercel.com/font) — Sans + Mono                                 |
+| **Typography**      | [Geist](https://vercel.com/font) -- Sans + Mono                                |
 | **Markdown**        | `react-markdown` + `remark-gfm` + `rehype-highlight` (GitHub Dark theme)       |
 | **Animation**       | [Motion](https://motion.dev) (formerly Framer Motion)                          |
 | **Linting**         | [Biome](https://biomejs.dev)                                                   |
 | **Package Manager** | [Bun](https://bun.sh)                                                          |
-| **Deployment**      | [Vercel](https://vercel.com) — push-to-deploy                                  |
+| **Deployment**      | [Vercel](https://vercel.com) -- push-to-deploy                                 |
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) (≥ 1.0)
+- [Bun](https://bun.sh) (>= 1.0)
 
 ### Setup
 
@@ -92,7 +92,7 @@ bun start      # Run the production server
 
 ---
 
-## 📋 Commands
+## Commands
 
 | Command            | Description                   |
 | ------------------ | ----------------------------- |
@@ -105,19 +105,19 @@ bun start      # Run the production server
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 tav/
 ├── app/
-│   ├── page.tsx                        # Landing page → SearchPage
+│   ├── page.tsx                        # Landing page to SearchPage
 │   ├── layout.tsx                      # Root layout with Geist fonts
 │   ├── globals.css                     # Global styles, dark theme, CSS vars
 │   ├── favicon.ico                     # Geometric "t" favicon
 │   ├── opengraph-image.tsx             # OG image generation
 │   └── api/
 │       └── search/
-│           └── route.ts                # POST handler: Tavily → Cerebras stream
+│           └── route.ts                # POST handler: Tavily to Cerebras stream
 ├── components/
 │   ├── search-page.tsx                 # Main UI shell
 │   ├── search-thread.tsx               # Chat thread with useChat
@@ -145,46 +145,46 @@ tav/
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
-1. **You type a query** → the search input captures your question
-2. **Tavily searches the web** → fetches the 5 most relevant results with content
-3. **Cerebras generates an answer** → `gpt-oss-120b` synthesizes a grounded response with inline citations
-4. **Results stream to you** → sources appear first, then the answer streams token-by-token
-5. **Ask follow-ups** → each new question triggers a fresh search, with conversation context maintained
+1. **You type a query** -- the search input captures your question
+2. **Tavily searches the web** -- fetches the 5 most relevant results with content
+3. **Cerebras generates an answer** -- `gpt-oss-120b` synthesizes a grounded response with inline citations
+4. **Results stream to you** -- sources appear first, then the answer streams token-by-token
+5. **Ask follow-ups** -- each new question triggers a fresh search, with conversation context maintained
 
 ---
 
-## ⌨️ Keyboard Shortcuts
+## Keyboard Shortcuts
 
 | Shortcut              | Action                              |
 | --------------------- | ----------------------------------- |
 | `Enter`               | Submit query                        |
 | `Shift + Enter`       | Insert newline                      |
-| `⌘ / Ctrl + Enter`    | Submit query (alternative)          |
+| `Ctrl + Enter`        | Submit query (alternative)          |
 | `/`                   | Focus the search input              |
 | `Esc` (with text)     | Clear the input                     |
 | `Esc` (empty input)   | Reset to landing page               |
 
 ---
 
-## 🌐 Deployment
+## Deployment
 
 Deploy instantly on [Vercel](https://vercel.com):
 
 1. Push the repo to GitHub
 2. Import into Vercel
 3. Set `CEREBRAS_API_KEY` and `TAVILY_API_KEY` in project settings
-4. Deploy — that's it!
+4. Deploy -- that's it!
 
 ---
 
-## 📄 License
+## License
 
-**MIT** — see [LICENSE](./LICENSE) for details.
+**MIT** -- see [LICENSE](./LICENSE) for details.
 
 ---
 
 <p align="center">
-  <sub>Built by <a href="https://github.com/prathamdby">Pratham Dubey</a> — full spec in <a href="./SPEC.md">SPEC.md</a></sub>
+  <sub>Built by <a href="https://github.com/prathamdby">Pratham Dubey</a> -- full spec in <a href="./SPEC.md">SPEC.md</a></sub>
 </p>
