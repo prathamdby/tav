@@ -9,6 +9,7 @@ Fast AI search engine. Query → streamed answer from live web results with inli
 - Multi-turn follow-up questions
 - Rich markdown with code highlighting
 - Dark theme, minimal UI
+- Grape-powered inspiration
 
 ## Stack
 
