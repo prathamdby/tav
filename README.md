@@ -3,7 +3,7 @@
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/Bun-000000?style=for-the-badge&logo=bun&logoColor=white" alt="Bun" />
-  <img src="https://img.shields.io/badge/cerebras-000000?style=for-the-badge&logo=icloud&logoColor=white" alt="Cerebras" />
+  <img src="https://img.shields.io/badge/cerebras-000000?style=for-the-badge" alt="Cerebras" />
   <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge" alt="License" />
 </p>
 
@@ -133,7 +133,11 @@ tav/
 ├── lib/
 │   ├── env.ts                          # Environment variable validation (zod)
 │   ├── tavily.ts                       # Tavily search utility
-│   └── prompts.ts                      # System prompt template
+│   ├── prompts.ts                      # System prompt template
+│   ├── decompose.ts                    # Query decomposition planner
+│   ├── rewrite.ts                      # Follow-up query rewriting
+│   ├── search-orchestrator.ts          # Multi-query parallel search orchestrator
+│   └── types.ts                        # Shared type definitions
 ├── .env.example                        # Template for API keys
 ├── SPEC.md                             # Full product specification
 ├── package.json
@@ -148,10 +152,11 @@ tav/
 ## How It Works
 
 1. **You type a query** -- the search input captures your question
-2. **Tavily searches the web** -- fetches the 5 most relevant results with content
-3. **Cerebras generates an answer** -- `gpt-oss-120b` synthesizes a grounded response with inline citations
-4. **Results stream to you** -- sources appear first, then the answer streams token-by-token
-5. **Ask follow-ups** -- each new question triggers a fresh search, with conversation context maintained
+2. **Query is decomposed** -- for complex queries (3+ words), Cerebras breaks the question into targeted sub-queries for comprehensive coverage
+3. **Parallel search** -- the orchestrator runs searches across all sub-queries simultaneously, deduplicates results, and filters for quality
+4. **Answer generation** -- Cerebras `gpt-oss-120b` synthesizes a grounded response with inline citations from the aggregated results
+5. **Results stream to you** -- sources appear first, then the answer streams token-by-token
+6. **Ask follow-ups** -- each follow-up is rewritten into a standalone search query, decomposed, and searched fresh with conversation context maintained
 
 ---
 
