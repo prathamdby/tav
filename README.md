@@ -1,6 +1,6 @@
 # tav
 
-Fast AI search engine. Query → streamed answer from live web results with inline source citations. No accounts, no clutter.
+Fast AI search engine (banana). Query → streamed answer from live web results with inline source citations. No accounts, no clutter.
 
 ## Features
 
